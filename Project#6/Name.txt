@@ -1,0 +1,73 @@
+import java.util.ArrayList;
+public class Name {
+
+	public static int[] yearCollectionForMale = new int[131];
+	public static int[] yearCollectionForFemale = new int[131];
+	private String name;
+    private int bestYear;
+    private String sex;
+    private ArrayList<Integer> Rank = new ArrayList<Integer>(10);
+    private ArrayList<Integer> count = new ArrayList<Integer>(10);
+    private ArrayList<Integer> year = new ArrayList<Integer>(10);
+    
+	 public Name (String otherName, String theSex, int the_count, int ayear, int aRank)
+	 {
+	 	name = otherName;
+	 	sex= theSex;
+	 	count.add(the_count);
+	 	year.add(ayear);
+	 	Rank.add(aRank);
+	 }
+	 public String getName()
+	 {
+	 	return name;
+	 }
+	 public void setName(String name)
+	 {
+	 	this.name = name;
+	 }
+	 public int getRank(int ayear)
+	 {
+		 int returnValue = 0;
+		 int temp;
+		 temp = year.indexOf(ayear);
+		 if (temp != (-1))
+		 {
+			 returnValue = Rank.get(temp);	 
+		 }
+	 	return returnValue;
+	 }
+	 public int getBestYear()
+	 {
+		 int temp = 0;
+		 int bestRank = 1001;
+	 	for (int n = 0; n < Rank.size(); n++)
+	 	{
+	 		if (bestRank < Rank.get(n))
+	 		{
+	 			temp = n;
+	 			bestRank = Rank.get(n);
+	 		}	
+	 	}
+	 	bestYear = year.get(temp);
+		 return bestYear;
+	 }
+	 public void addNewData(int ayear, int amountBorn, int aRank)
+	 {
+		 count.add(amountBorn);
+		 	year.add(ayear);
+		 	Rank.add(aRank);
+	 }
+	 public String getGender()
+	 {
+	 	return "sex";
+	 }
+	 public boolean equals(Name otherName)
+	 {
+		 return true;
+	 }
+	 public String toString()
+	 {
+	 	return (name + " " + sex + " " + count);
+	 }
+	 }

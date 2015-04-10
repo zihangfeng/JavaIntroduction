@@ -1,0 +1,124 @@
+/*This project is to organize many different
+ * name with gender and amount of people
+ * in the given year
+ * Class: CS 107, Spring 2012
+ * Lab: Venkatakumar Srinivasan, Tue. 9:00 AM
+ * @author Jian Heng Feng
+ * @version April 24, 2012
+ *----------------------------------------*/
+import java.io.*;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class NameCollection {
+	public static ArrayList<Name> male = new ArrayList<Name>(10);
+	public static ArrayList<Name> female = new ArrayList<Name>(10);
+	public static int maleCount, femaleCount;
+	 
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println("Reading the data takes a while: ");		
+		 for (int i = 1880; i <= 2010; i ++)
+	     {
+		 Scanner inputStream = null;
+		 try
+		   {
+			   inputStream = new Scanner(new FileInputStream("yob" + i + ".txt"));
+			   Name data = null; 
+			     String line = null;
+				 String[] tokens = null;
+				 maleCount = 0;
+				 femaleCount = 0;
+				 while (inputStream.hasNextLine())// store all data
+				 {
+					  line = inputStream.nextLine();
+					  tokens = line.split(","); 
+					 
+					  boolean exist = false;
+					  if (tokens[1].equals("M"))
+					  {
+						  maleCount++;
+						  if (maleCount <= 1000)// takes the top 1000 male
+							  {						  
+							  for (int n = 0; n < male.size(); n++)
+							  {  
+								  if (male.get(n).getName().equals(tokens[0]))
+								  {
+									  exist = true;
+									  male.get(n).addNewData(i, Integer.parseInt(tokens[2]), maleCount);
+								  }  
+							  }
+							  if (exist == false)
+							  { 
+								  data = new Name(tokens[0],tokens[1],Integer.parseInt(tokens[2]),i,maleCount);
+								  male.add(data);  
+							  }
+							  
+						  }
+					  }
+					  else
+					  {
+						  femaleCount++;
+						  if (femaleCount <= 1000)// takes the top 1000 female
+							  {
+								  
+							  
+							  for (int n = 0; n < female.size(); n++)
+							  {
+								   
+								  if (female.get(n).getName().equals(tokens[0]))
+								  {
+									  exist = true;
+									  female.get(n).addNewData(i, Integer.parseInt(tokens[2]), femaleCount);
+								  }  
+							  }
+							  if (exist == false)
+							  { 
+								  data = new Name(tokens[0],tokens[1],Integer.parseInt(tokens[2]),i,femaleCount);
+								  female.add(data);  
+							  }
+							  
+						  }
+					  }
+			         
+				 }
+				// System.out.println(male);
+				// System.out.println(female);
+		   }
+		   catch (FileNotFoundException e)
+		   {
+			   System.out.println("the file is not readable");
+		   }
+
+		 inputStream.close();
+	 }           
+		 NameCollection Instance = new NameCollection();
+		 Instance.search();// do the search
+	}
+	public void search()
+	{
+		Scanner keyboard = new Scanner(System.in);
+		System.out.println("Enter the portion of the name: ");
+		String theName = keyboard.nextLine();
+		System.out.println("Searching among the males: ");
+		for (int i = 0; i < male.size(); i++)//get the name and the best year print for male
+		{ 
+			if (male.get(i).getName().toLowerCase().contains(theName.toLowerCase()))
+			{
+				System.out.println(male.get(i).getName() + " " + male.get(i).getBestYear());
+			}
+		}
+		System.out.println("Searching among the females: ");
+		for (int i = 0; i < female.size(); i++)//get the name and the best year print for female
+		{ 
+			if (female.get(i).getName().toLowerCase().contains(theName.toLowerCase()))
+			{
+				System.out.println(female.get(i).getName() + " " + female.get(i).getBestYear());
+			}
+		}
+	}
+}
+
